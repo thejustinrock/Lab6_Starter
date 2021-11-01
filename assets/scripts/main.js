@@ -5,7 +5,10 @@
 const recipes = [
   'https://introweb.tech/assets/json/ghostCookies.json',
   'https://introweb.tech/assets/json/birthdayCake.json',
-  'https://introweb.tech/assets/json/chocolateChip.json'
+  'https://introweb.tech/assets/json/chocolateChip.json',
+  'assets/recipes/padThai.json',
+  'assets/recipes/namKhao.json',
+  'assets/recipes/papayaSalad.json'
 ];
 
 // Once all of the recipes that were specified above have been fetched, their
@@ -44,44 +47,23 @@ async function fetchRecipes() {
 
     // Part 1 Expose - TODO
 
-  //   for (let i = 0; i < recipes.length; i++) {
-  //     fetch(recipes[i]);
-  //     .then(response => response.json());
-  //     .then(data => {
-  //       recipeData[i] = data;
-  //     })
-  //     .then(() => {
-  //       if (Object.keys(recipeData).length == recipes.length) {
-  //         resolve(true);
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.log('There is an error: ', err);
-  //       reject(false);
-  //     })
-  //   }
-  // });
-
-  var i = 0;
-  for(i = 0; i < recipes.length; i++){
-    await fetch(recipes[i]).then(async (results) => {
-      if(!results.ok){
-        reject(false);
-        return;
-      }
-      var inside = true;
-      await results.text().then((responses) => {
-        recipeData[recipes[i]] = responses;
-        // console.log(responses);
-        // console.log(recipes[i]);
-        inside = false;
+    for (let i = 0; i < recipes.length; i++) {
+      fetch(recipes[i]);
+      .then(response => response.json());
+      .then(data => {
+        recipeData[i] = data;
       })
-    });
-}
-  resolve(true);
-  return;
-});
-
+      .then(() => {
+        if (Object.keys(recipeData).length == recipes.length) {
+          resolve(true);
+        }
+      })
+      .catch(err => {
+        console.log('There is an error: ', err);
+        reject(false);
+      })
+    }
+  });
 }
 
 function createRecipeCards() {
@@ -92,7 +74,8 @@ function createRecipeCards() {
   // show any others you've added when the user clicks on the "Show more" button.
 
   // Part 1 Expose - TODO
-  for (var i = 0; i < 3; i++) {
+  var i;
+  for (i = 0; i < 3; i++) {
     element.data = recipeData[i];
     document.querySelector("main").appendChild(document.createElement("recipe-card"));
   }
@@ -107,4 +90,21 @@ function bindShowMore() {
   // in the recipeData object where you stored them/
 
   // Part 2 Explore - TODO
+
+  document.querySelector('button').addEventListener("click", function(){ 
+    var i
+    if (document.querySelector('button').textContent == "Show more") {
+      for (i = 3 ; i < recipes.length; i++){
+        document.querySelector('main').children[i].style.display = '';
+      }
+      document.querySelector('button').textContent = "Show less";
+
+    } 
+    else{
+      for (i = 3 ; i < recipes.length; i++){
+        document.querySelector('main').children[i].style.display = 'none';
+      }
+      document.querySelector('button').textContent = "Show more";
+    }
+  });
 }

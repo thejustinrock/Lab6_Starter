@@ -89,139 +89,72 @@ class RecipeCard extends HTMLElement {
     // Here's the root element that you'll want to attach all of your other elements to
     const card = document.createElement('article');
 
-    // //The 1st image being added
-    // let imgFirst = document.createElement('img');
-    // let imgKey = searchForKey(data, 'thumbnailUrl');
-    // imgFirst.src = imgKey;
-    // card.appendChild(imgFirst);
+    //The 1st image being added
+    let imgFirst = document.createElement("img");
+    let imgKey = searchForKey(data, "thumbnailUrl");
+    imgFirst.src = imgKey;
+    card.appendChild(imgFirst);
 
-    // //The headline being added
-    // let theUrl = getUrl(data);
-    // let headKey = searchForKey(data, "headline");
-    // let theTitle = document.createElement("p");
-    // let theLink = document.createElement("a");
-    // theTitle.classList.add("title");
-    // theLink.href = theUrl;
-    // theLink.append(headKey);
-    // theTitle.appendChild(theLink);
-    // card.appendChild(theTitle);
+    //The headline being added
+    let theUrl = getUrl(data);
+    let headKey = searchForKey(data, "headline");
+    let theTitle = document.createElement("p");
+    let theLink = document.createElement("a");
+    theTitle.classList.add("title");
+    theLink.href = theUrl;
+    theLink.append(headKey);
+    theTitle.appendChild(theLink);
+    card.appendChild(theTitle);
 
-    // //Set the organization
-    // let theOrgan = getOrganization(data);
-    // let theOrg = document.createElement("p");
-    // org.classList.add("organization");
-    // org.append(theOrgan);
-    // card.appendChild(theOrg);
+    //Set the organization
+    let theOrg = document.createElement("p");
+    let theOrgan = getOrganization(data);
+    theOrg.classList.add("organization");
+    theOrg.append(theOrgan);
+    card.appendChild(theOrg);
 
-    // let rating = searchForKey(data, "aggregateRating");
-    // if(rating) {
-    //   let ratingValue = rating.ratingValue;
-    //   let ratingCount = rating.ratingCount;
-    //   let reviews = document.createElement("div");
-    //   reviews.classList.add("rating");
-    //   let valSpan = document.createElement("span");
-    //   valSpan.append(ratingValue);
-    //   reviews.appendChild(valSpan);
-    //   let stars = document.createElement("img");
-    //   stars.src = `assets/images/icons/${Math.round(ratingValue)}-star.svg`;
-    //   reviews.appendChild(stars);
-    //   let totSpan = document.createElement("span");
-    //   totSpan.append(`(${ratingCount})`);
-    //   reviews.appendChild(totSpan);
-    //   card.appendChild(reviews);
-    // }
-    // else {
-    //   let reviews = document.createElement("div");
-    //   reviews.classList.add("rating");
-    //   let valSpan = document.createElement("span");
-    //   valSpan.append("No Reviews");
-    //   reviews.appendChild(valSpan);
-    //   card.appendChild(reviews);
-    // }
-
-    // let timeKey = searchForKey(data, 'totalTime');
-    // let time = convertTime(timeKey);
-    // let timeSpan = document.createElement("time");
-    // timeSpan.append(time);
-    // card.appendChild(timeSpan);
-
-    // let ingredientKey = searchForKey(data, 'recipeIngredient');
-    // let ingredients = createIngredientList(ingredientKey);
-    // let ingSpan = document.createElement("p");
-    // ingSpan.classList.add("ingredients");
-    // ingSpan.append(ingredients);
-    // card.appendChild(ingSpan);
-
-    // this.shadowRoot.appendChild(styleElem);
-    // this.shadowRoot.appendChild(card);
-
-    data = JSON.parse(data);
-    let img = document.createElement("img")
-    let picKey = searchForKey(data, 'thumbnailUrl');
-    img.src = picKey;
-    card.appendChild(img);
-
-    let url = getUrl(data);
-    let nameKey = searchForKey(data, "headline");
-    let title = document.createElement("p");
-    title.classList.add("title");
-    let link = document.createElement("a");
-    link.href = url;
-    link.append(nameKey);
-    title.appendChild(link);
-    card.appendChild(title);
-
-
-    let organization = getOrganization(data);
-    let org = document.createElement("p");
-    org.classList.add("organization");
-    org.append(organization);
-    card.appendChild(org);
-
-    let rating = searchForKey(data, "aggregateRating");
-    if(rating) {
-      let ratingValue = rating.ratingValue;
-      let ratingCount = rating.ratingCount;
-      let reviews = document.createElement("div");
-      reviews.classList.add("rating");
-      let valSpan = document.createElement("span");
-      valSpan.append(ratingValue);
-      reviews.appendChild(valSpan);
-      let stars = document.createElement("img");
-      stars.src = `assets/images/icons/${Math.round(ratingValue)}-star.svg`;
-      reviews.appendChild(stars);
-      let totSpan = document.createElement("span");
-      totSpan.append(`(${ratingCount})`);
-      reviews.appendChild(totSpan);
-      card.appendChild(reviews);
+    //The rating
+    let theRating = searchForKey(data, "theRating");
+    if(!theRating) {
+      let valueSpan = document.createElement("span");
+      let theReviews = document.createElement("div");
+      theReviews.classList.add("rating");
+      valueSpan.append("No Reviews");
+      theReviews.appendChild(valueSpan);
+      card.appendChild(theReviews);
     }
     else {
-      let reviews = document.createElement("div");
-      reviews.classList.add("rating");
-      let valSpan = document.createElement("span");
-      valSpan.append("No Reviews");
-      reviews.appendChild(valSpan);
-      card.appendChild(reviews);
+      let valueSpan = document.createElement("span");
+      let theReviews = document.createElement("div");
+      let theStars = document.createElement("img");
+      let toSpan = document.createElement("span");
+      theReviews.classList.add("rating");
+      valueSpan.append(theRating.ratingValue);
+      theReviews.appendChild(valueSpan);
+      theStars.src = `assets/images/icons/${Math.round(theRating.ratingValue)}-star.svg`;
+      theReviews.appendChild(theStars);
+      toSpan.append(`(${theRating.ratingCount})`);
+      theReviews.appendChild(toSpan);
+      card.appendChild(theReviews);
     }
 
-    let timeKey = searchForKey(data, 'totalTime');
-    let time = convertTime(timeKey);
+    //The time of the recipe that cook
+    let theTime = convertTime(keyTime);
+    let keyTime = searchForKey(data, 'totalTime');
     let timeSpan = document.createElement("time");
-    timeSpan.append(time);
+    timeSpan.append(theTime);
     card.appendChild(timeSpan);
 
-    let ingredientKey = searchForKey(data, 'recipeIngredient');
-    let ingredients = createIngredientList(ingredientKey);
-    let ingSpan = document.createElement("p");
-    ingSpan.classList.add("ingredients");
-    ingSpan.append(ingredients);
-    card.appendChild(ingSpan);
+    //The recipe ingridients
+    let theIngredientKey = searchForKey(data, "recipeIngredient");
+    let theIngredients = createIngredientList(theIngredientKey);
+    let theIngSpan = document.createElement("p");
+    theIngSpan.classList.add("ingredients");
+    theIngSpan.append(theIngredients);
+    card.appendChild(theIngSpan);
 
     this.shadowRoot.appendChild(styleElem);
     this.shadowRoot.appendChild(card);
-
-    //The headline being added
-
 
     // Some functions that will be helpful here:
     //    document.createElement()
